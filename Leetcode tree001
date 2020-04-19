@@ -1,1 +1,37 @@
+二叉树的中序遍历
+首先我们来看看二叉树的递归方法
+class Solution {
+public:
+    vector<int> ans;
+    vector<int> inorderTraversal(TreeNode* root) {
+        if(root != NULL) {
+            inorderTraversal(root -> left);
+            ans.push_back(root -> val);
+            inorderTraversal(root -> right);
+        }
+        return ans;
+    }
+};
+其次我们来看看二叉树的迭代方法
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> ans;
+        stack<TreeNode*> stk;
+        TreeNode* temp = root;
+        while(temp || !stk.empty()){
+            while(temp){
+                stk.push(temp);
+                temp = temp -> left;
+            }
+            temp = stk.top();
+            stk.pop();
+            ans.push_back(temp -> val);
+            temp = temp -> right;
+        }
+        return ans;
+    }
+};对时间复杂度进行分析 我们发现 每个节点都只进行一次操作 因此时间复杂度为O（n）
+
+
 
