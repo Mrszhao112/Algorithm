@@ -1,0 +1,53 @@
+ 首先是树的三种递归遍历方法
+void PreOrder(struct TreeNode *root, int *ret, int *retIndex)
+{
+    if (root == NULL) {
+        return;
+    }
+    /* 这行代码 ret[(*retIndex)++] = root->val; 放在这里，输出是前序遍历 */
+    ret[(*retIndex)++] = root->val; 
+    PreOrder(root->left, ret, retIndex);
+    /* 这行代码 ret[(*retIndex)++] = root->val; 放在这里，输出是中序遍历 */
+    PreOrder(root->right, ret, retIndex);
+    /* 这行代码 ret[(*retIndex)++] = root->val; 放在这里，输出是后序遍历 */
+}
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int *preorderTraversal(struct TreeNode *root, int *returnSize)
+{
+    int retIndex = 0;
+    int *ret = (int *)malloc(sizeof(int) * 100);
+    memset(ret, 0, sizeof(int) * 100);
+
+    PreOrder(root, ret, &retIndex);
+    *returnSize = retIndex;
+
+    return ret;
+}
+
+接下来是树的非递归遍历前序
+
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        std::stack<TreeNode*> stack;
+        vector<int> vec;
+        TreeNode* cur = root;
+        while(cur != NULL || !stack.empty()) {
+            while(cur != NULL) {
+                stack.push(cur);
+                vec.push_back(cur->val);
+                cur = cur->left;
+            }
+            cur = stack.top();
+            stack.pop();
+            cur = cur->right;
+        }
+        return vec;
+    }
+};
+
+
+
+
