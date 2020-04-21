@@ -1,0 +1,26 @@
+
+
+树的非递归后序遍历算法其实和树的前序遍历算法区别并不大
+有两个不同之处
+1. 入栈顺序
+2. vector反转
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> res;
+        stack<TreeNode*> s;
+        if(root) s.push(root);
+        else return res;       
+        while(!s.empty()){    
+        TreeNode* temp=s.top();  
+        res.push_back(temp->val);  
+        s.pop();   
+        if(temp->left)
+        s.push(temp->left);//左孩子先入栈  
+        if(temp->right) s.push(temp->right);//右孩子后入栈
+        }  
+        reverse(res.begin(),res.end());//翻转   
+        return res;   
+        }
+};   
+
