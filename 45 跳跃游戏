@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int step=0;
+        int maxPos=0;//可以到达的最大位置
+        int end=0;  //当前边界
+        
+        for(int i=0;i<nums.size()-1;i++)
+        {
+            if(maxPos>=i)//刷新可以到达的最大位置   maxpos 代表了现在在数组的那个位置
+            {
+                maxPos=max(maxPos,nums[i]+i);
+            }
+            if(i==end)//更新边界
+            {
+                end=maxPos;
+                ++step;
+            }
+        }
+        return step;
+    }
+};
