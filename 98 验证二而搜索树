@@ -1,0 +1,27 @@
+//根据二叉搜索树root->left < root 并且 root->right > root 的这个性质，我们对每个结点都维护一个它应当满足的最大和最小值就好了。
+
+class Solution {
+public:
+    bool helper(TreeNode* root, long min, long max)
+    {
+        if (root == NULL) 
+        {
+            return true;
+        }
+
+        if (root->val <= min || root->val >= max) 
+        {
+            return false;
+        }
+
+        return helper(root->left, min, root->val) && helper(root->right, root->val, max);
+    }
+
+    bool isValidBST(TreeNode* root) 
+    {
+        long min = LONG_MIN;
+        long max = LONG_MAX;
+    
+        return helper(root, min, max);
+    }
+};。
