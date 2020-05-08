@@ -1,0 +1,68 @@
+class Solution {
+public:
+    int max_edge = 0; //记号
+    vector<vector<int>> pre_sum; //开辟空间 
+    int maximalSquare(vector<vector<char>>& matrix) {
+        //暴力 面积从2*2 开始到i*i
+        if (matrix.empty())  //特殊情况
+        {
+            return 0;
+        }
+        int m = matrix.size(); //行
+        int n = matrix[0].size();//列
+        pre_sum = vector<vector<int>> (m, vector<int>(n));
+        //预处理
+
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                pre_sum[i][j] = matrix[i][j] - '0'; //转化
+                if (i - 1 >= 0)
+                pre_sum[i][j] += pre_sum[i-1][j];
+                if (j - 1 >= 0)
+                pre_sum[i][j] += pre_sum[i][j-1];
+                if (i - 1 >= 0 && j -1 >= 0 )
+                pre_sum[i][j] -= pre_sum[i-1][j-1];
+            }
+        }
+
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if(matrix[i][j] == '1')  //预处理 空间换时间
+                {
+                    int sum = 0;
+                    int cnt = 1;
+                    int mi = i;
+                    int mj = j;
+                    while (i + 1 <= m - 1 && j + 1 <= n- 1)
+                    {
+                        sum = pre_sum[i + 1][j + 1];
+                        if (mi >= 1)
+                        sum -= pre_sum[mi -1][j + 1];
+                        if (mj >= 1)
+                        sum -= pre_sum[i + 1][mj - 1];
+                        if (mj >= 1 && mi >= 1)
+                        sum += pre_sum[mi - 1][mj - 1];
+                        if ((cnt + 1) * (cnt + 1) == sum)
+                        {
+                            cnt++;
+                            j++;
+                            i++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    i = mi;
+                    j = mj;//注意
+                    max_edge = max(max_edge, cnt);
+                }
+            }
+        }
+        return max_edge * max_edge;
+    }
+};
