@@ -1,0 +1,39 @@
+class MinStack {
+public:
+       stack<int> q1;
+        stack<int> q2;
+    /** initialize your data structure here. */
+    MinStack() {
+
+        q1;
+        q2;
+    }
+    
+    void push(int x) {
+        //q1入栈 入栈时q2大就q2 非空时 q1 q2 为空直接入就行
+        if (q1.empty()) {
+            q1.push(x);
+            q2.push(x);
+        }else {
+            q1.push(x);
+            if (q2.top() >= x ) {
+                q2.push(x);
+            }
+        }
+    }
+
+    void pop() {
+        if(q1.top() == q2.top()) {
+            q2.pop();
+        }
+        q1.pop();
+    }
+    
+    int top() {
+        return q1.top();
+    }
+    
+    int getMin() {
+        return q2.top();
+    }
+};
