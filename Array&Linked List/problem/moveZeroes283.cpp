@@ -25,3 +25,20 @@ public:
     }
 }
 };
+
+
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {//方案一优化
+        int index = 0;
+        for (int i = 0; i < nums.size(); ++i) {
+            if (nums[i] != 0) {
+                nums[index] = nums[i];
+                if (index != i) {
+                    nums[i] = 0;
+                }
+                ++index;
+            }
+        }
+    }
+};
